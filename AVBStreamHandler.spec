@@ -4,7 +4,7 @@
 #
 Name     : AVBStreamHandler
 Version  : 1.0.2
-Release  : 10
+Release  : 12
 URL      : https://github.com/intel/AVBStreamHandler/releases/download/v1.0.2/AVBStreamHandler-v1.0.2.tar.gz
 Source0  : https://github.com/intel/AVBStreamHandler/releases/download/v1.0.2/AVBStreamHandler-v1.0.2.tar.gz
 Summary  : No detailed summary available
@@ -37,14 +37,6 @@ controller. These features can be used for developing Audio/Video Bridging
 applications, Industrial Ethernet applications which require precise timing
 control over frame transmission, or test harnesses for measuring system
 latencies and sampling events.
-
-%package abi
-Summary: abi components for the AVBStreamHandler package.
-Group: Default
-
-%description abi
-abi components for the AVBStreamHandler package.
-
 
 %package bin
 Summary: bin components for the AVBStreamHandler package.
@@ -92,7 +84,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541559704
+export SOURCE_DATE_EPOCH=1543901920
 mkdir -p clr-build
 pushd clr-build
 %cmake .. -DIAS_IS_HOST_BUILD=1 -DIAS_DISABLE_DOC=1 -DCMAKE_INSTALL_LIBDIR=lib64
@@ -100,7 +92,7 @@ make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1541559704
+export SOURCE_DATE_EPOCH=1543901920
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
@@ -111,12 +103,6 @@ popd
 %exclude /usr/lib64/ias-audio-common/asound_module_pcm_smartx.cmake
 %exclude /usr/lib64/ias-audio-common/asound_module_rate_smartx.cmake
 %exclude /usr/lib64/ias-audio-common/ias-audio-common.cmake
-
-%files abi
-%defattr(-,root,root,-)
-/usr/share/abi/libias-audio-common.so.4.0.0.abi
-/usr/share/abi/libias-audio-common.so.4.abi
-/usr/share/abi/libias-media_transport-avb_streamhandler.so.0.0.1.abi
 
 %files bin
 %defattr(-,root,root,-)
@@ -129,6 +115,7 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
+%exclude /usr/lib64/libias-audio-common.so
 /usr/include/audio/common/IasAudioCommonTypes.hpp
 /usr/include/audio/common/audiobuffer/IasMemoryAllocator.hpp
 /usr/include/audio/common/audiobuffer/IasMetaData.hpp
@@ -168,14 +155,13 @@ popd
 /usr/lib64/ias-audio-common/asound_module_pcm_smartx.cmake
 /usr/lib64/ias-audio-common/asound_module_rate_smartx.cmake
 /usr/lib64/ias-audio-common/ias-audio-common.cmake
-/usr/lib64/libias-audio-common.so
 /usr/lib64/libias-media_transport-avb_streamhandler.so
 /usr/lib64/pluginias-media_transport-avb_configuration_reference.so
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/alsa-lib/libasound_module_pcm_smartx.so
-/usr/lib64/alsa-lib/libasound_module_rate_smartx.so
-/usr/lib64/libias-audio-common.so.4
-/usr/lib64/libias-audio-common.so.4.0.0
+%exclude /usr/lib64/alsa-lib/libasound_module_pcm_smartx.so
+%exclude /usr/lib64/alsa-lib/libasound_module_rate_smartx.so
+%exclude /usr/lib64/libias-audio-common.so.4
+%exclude /usr/lib64/libias-audio-common.so.4.0.0
 /usr/lib64/libias-media_transport-avb_streamhandler.so.0.0.1
